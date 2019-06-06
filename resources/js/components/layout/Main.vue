@@ -4,7 +4,9 @@
       <Nav ></Nav>
     </div>
     <div>
-      <router-view :key="$route.fullPath"></router-view>
+      <transition name="fade" mode="out-in">
+        <router-view :key="$route.fullPath"></router-view>
+      </transition>
     </div>
   </div>
 </template>
@@ -26,3 +28,17 @@ export default {
   }
 }
 </script>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
+} 
+</style>
