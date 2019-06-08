@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Follower;
 use Illuminate\Http\Request;
-use App\Events\NewNotification;
 use App\Notifications\UserFollowed;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User as UserResource;

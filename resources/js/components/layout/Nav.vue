@@ -15,7 +15,10 @@
               Notifications <span class="badge badge-danger" v-show="unreadNotifications.length">{{unreadNotifications.length}}</span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="notificationsMenu" id="notificationsMenu" >
-                <li class="dropdown-header" v-for="notification in notifications"><router-link :to="{path:'/user/' + notification.data.follower_id}">{{notification.data.follower_name}} has followed you</router-link> </li>
+                <li class="dropdown-header" v-for="notification in notifications">
+                  <router-link v-if="notification.data.follower_id" :to="{path:'/user/' + notification.data.follower_id}">{{notification.data.message}}</router-link>
+                  <p v-else>{{notification.data.message}}</p>
+                </li>
                 <small> <a href="#" @click.prevent="markAllAsRead">Mark all as read</a></small>
             </ul>
           </li>
@@ -43,7 +46,12 @@
 <script>
   export default {
     created() {
-      this.$store.dispatch('loadAuthUser')
+      this.$store.dispatch('loadAuthUser').then(response => {
+        Echo.private('App.User.' + response.data.id)
+                .notification((notification) => {
+                this.$store.commit('setNewNotification', notification)
+                })
+      })
       this.$store.dispatch('loadNotification')
       this.$store.dispatch('loadUnreadNotification')
     },

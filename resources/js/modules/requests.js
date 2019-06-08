@@ -35,7 +35,10 @@ export const requests = {
         setUnreadNotifications(state, unreadNotifications) {
             state.unreadNotifications = unreadNotifications
         },
-
+        setNewNotification(state, notification) {
+            state.notifications.unshift({data: notification})
+            state.unreadNotifications.unshift({data: notification})
+        }
 	},
 
 	getters: {

@@ -78,16 +78,16 @@ export const auth = {
 			})
 		},
 		loadAuthUser(context){
-            axios.get( APP_CONFIG.API_URL + '/user')
-            .then(response => {
-                context.commit('setAuthUser', response.data)
-                Echo.private('App.User.' + response.data.id)
-                .notification((notification) => {
-                context.state.notifications.push(notification)
+            return new Promise((resolve, reject) => {
+                axios.get( APP_CONFIG.API_URL + '/user')
+                .then(response => {
+                    context.commit('setAuthUser', response.data)
+                    resolve(response)
                 })
-            })
-            .catch(error => {
-                console.log(error)
+                .catch(error => {
+                    console.log(error)
+                    reject(error)
+                })
             })
         },
         loadUser(context, user_id){
@@ -118,7 +118,7 @@ export const auth = {
 			    }
             })
         },
-                loadFollowingUsers(context, user_id) {
+            loadFollowingUsers(context, user_id) {
             axios.get(APP_CONFIG.API_URL + '/user/' + user_id + '/following')
             .then(response => {
                 context.commit('setFollowingUsers', response.data)

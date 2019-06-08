@@ -2119,9 +2119,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
-    this.$store.dispatch('loadAuthUser');
+    var _this = this;
+
+    this.$store.dispatch('loadAuthUser').then(function (response) {
+      Echo["private"]('App.User.' + response.data.id).notification(function (notification) {
+        _this.$store.commit('setNewNotification', notification);
+      });
+    });
     this.$store.dispatch('loadNotification');
     this.$store.dispatch('loadUnreadNotification');
   },
@@ -78764,22 +78773,22 @@ var render = function() {
                         "li",
                         { staticClass: "dropdown-header" },
                         [
-                          _c(
-                            "router-link",
-                            {
-                              attrs: {
-                                to: {
-                                  path: "/user/" + notification.data.follower_id
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                _vm._s(notification.data.follower_name) +
-                                  " has followed you"
+                          notification.data.follower_id
+                            ? _c(
+                                "router-link",
+                                {
+                                  attrs: {
+                                    to: {
+                                      path:
+                                        "/user/" + notification.data.follower_id
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(notification.data.message))]
                               )
-                            ]
-                          )
+                            : _c("p", [
+                                _vm._v(_vm._s(notification.data.message))
+                              ])
                         ],
                         1
                       )
@@ -102583,13 +102592,14 @@ var auth = {
       });
     },
     loadAuthUser: function loadAuthUser(context) {
-      axios.get(_config_js__WEBPACK_IMPORTED_MODULE_0__["APP_CONFIG"].API_URL + '/user').then(function (response) {
-        context.commit('setAuthUser', response.data);
-        Echo["private"]('App.User.' + response.data.id).notification(function (notification) {
-          context.state.notifications.push(notification);
+      return new Promise(function (resolve, reject) {
+        axios.get(_config_js__WEBPACK_IMPORTED_MODULE_0__["APP_CONFIG"].API_URL + '/user').then(function (response) {
+          context.commit('setAuthUser', response.data);
+          resolve(response);
+        })["catch"](function (error) {
+          console.log(error);
+          reject(error);
         });
-      })["catch"](function (error) {
-        console.log(error);
       });
     },
     loadUser: function loadUser(context, user_id) {
@@ -103160,6 +103170,14 @@ var requests = {
     },
     setUnreadNotifications: function setUnreadNotifications(state, unreadNotifications) {
       state.unreadNotifications = unreadNotifications;
+    },
+    setNewNotification: function setNewNotification(state, notification) {
+      state.notifications.unshift({
+        data: notification
+      });
+      state.unreadNotifications.unshift({
+        data: notification
+      });
     }
   },
   getters: {

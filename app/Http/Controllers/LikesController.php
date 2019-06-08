@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Resources\Comment as CommentResource;
 use App\Http\resources\Post as PostResource;
 use Illuminate\Http\Request;
+use App\Notifications\PostLiked;
 use App\Post;
 use App\Like;
+use App\User;
 use App\Comment;
 
 class LikesController extends Controller
@@ -14,6 +16,7 @@ class LikesController extends Controller
     public function postLikesPost(Request $request, Post $post)
     {
     	$action = $request->get('action');
+        $user = $post->user;
     	$vote = auth()->user()->likes()->where('likeable_type', 'App\Post')
     									->where('likeable_id', $post->id)
     									->first();
@@ -26,6 +29,7 @@ class LikesController extends Controller
     				} else {
     					$vote->like = 1;
                         $vote->save();
+                        $user->notify(new PostLiked(auth()->user(), $post));
     					return new PostResource($post);
     				}
     			} else {
@@ -35,6 +39,7 @@ class LikesController extends Controller
     					'likeable_type' => 'App\Post',
     					'like'=> true
     				]);
+                    $user->notify(new PostLiked(auth()->user(), $post));
     				return new PostResource($post);
     			}
     			break;

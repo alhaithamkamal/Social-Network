@@ -13,7 +13,7 @@ class UserFollowed extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $follower;
+    protected $follower;
 
     /**
      * Create a new notification instance.
@@ -47,6 +47,7 @@ class UserFollowed extends Notification implements ShouldQueue
         return new BroadcastMessage([
             'follower_id' => $this->follower->id,
             'follower_name' => $this->follower->name,
+            'message' => $this->follower->name . ' has followed you'
         ]);
     }
 
@@ -61,6 +62,7 @@ class UserFollowed extends Notification implements ShouldQueue
         return [
             'follower_id' => $this->follower->id,
             'follower_name' => $this->follower->name,
+            'message' => $this->follower->name . ' has followed you'
         ];
     }
 
