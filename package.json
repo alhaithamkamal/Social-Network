@@ -30,6 +30,7 @@
         "bootstrap-vue": "^2.0.0-rc.19",
         "laravel-echo": "^1.5.3",
         "pusher-js": "^4.4.0",
+        "querystringify": "^2.1.1",
         "vue-loader": "^15.7.0",
         "vue-moment": "^4.0.0"
     }
