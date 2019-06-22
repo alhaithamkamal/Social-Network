@@ -32,6 +32,16 @@ export const posts = {
                 context.commit( 'setPostsLoadStatus', 3 );
             }); 
         },
+        loadUserFeed(context, user_id) {
+            PostAPI.getUserFeed(user_id)
+            .then(response => {
+                context.commit( 'setFeed', response.data )
+            })
+            .catch(error => {
+                console.log(error)
+                context.commit( 'setFeed', [] )
+            })
+        },
         loadPost( { commit }, data ){
             PostAPI.getPost( data.post_id )
             .then( function( response ){

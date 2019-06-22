@@ -12,6 +12,9 @@ export default {
         return axios.get( APP_CONFIG.API_URL + '/myfeed')
     },
 
+    getUserFeed: (user_id) => {
+    	return axios.get(APP_CONFIG.API_URL + '/user/' + user_id + '/feed')
+    },
     /*
 	  GET   /api/v1/posts/{post}
 	*/

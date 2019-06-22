@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\Post as PostResource;
 use App\Post;
+use App\User;
 
 class FeedController extends Controller
 {
@@ -17,6 +18,13 @@ class FeedController extends Controller
     	$userIds[] = $user->id;
 
     	$feed = Post::whereIn('user_id', $userIds)->latest()->get();
+
+    	return PostResource::collection($feed);
+    }
+
+    public function userFeed(User $user)
+    {
+    	$feed = $user->posts()->latest()->get();
 
     	return PostResource::collection($feed);
     }

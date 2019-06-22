@@ -57,9 +57,11 @@
 					</div>
 				</div>
 				<div class="col-md-9">
+					<button type="button" class="btn btn-secondary" @click="posts">Posts</button>
 					<button type="button" class="btn btn-secondary" @click="following">Following {{user.following}}</button>
 					<button type="button" class="btn btn-secondary" @click="followers">Followers {{user.followers}}</button>
 		            <div class="profile-content">
+					   <UserPosts v-if="status == 'posts'" :authUser="authUser" :user="user"></UserPosts>
 					   <Following v-if="status == 'following'"></Following>
 					   <Followers v-if="status == 'followers'"></Followers>
 		            </div>
@@ -73,16 +75,20 @@
 </template>
 
 <script>
+	import UserPosts from './UserPosts'
 	import Following from './Following'
 	import Followers from './Followers'
 	import FollowButton from './FollowButton.vue'
 	export default {
 		data() {
 			return {
-				status: 'following',
+				status: 'posts',
 			}
 		},
 		methods: {
+			posts() {
+				this.status = 'posts'
+			},
 			following() {
 				this.status = 'following'
 			},
@@ -99,6 +105,7 @@
 
 		},
 		components: {
+			UserPosts,
 			Following,
 			Followers,
 			FollowButton

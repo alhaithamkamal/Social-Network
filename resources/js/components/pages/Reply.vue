@@ -3,7 +3,7 @@
       <div class="card-body">
           <div class="row">
               <div class="col-md-2">
-                  <img :src="'storage/avatars/' + reply.user.avatar" class="profile-photo-md pull-left"/>
+                  <img :src="'../storage/avatars/' + reply.user.avatar" class="profile-photo-md pull-left"/>
                   <p class="text-secondary float-left ">{{ reply.created_at | moment("from", "now", true) }}</p>
               </div>
               <div class="col-md-10">

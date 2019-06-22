@@ -1,7 +1,7 @@
 <template>
 	<div class="post-content">                  
       <div class="post-container">
-        <img :src="'storage/avatars/' + post.user.avatar" alt="user" class="profile-photo-md pull-left">
+        <img :src="'../storage/avatars/' + post.user.avatar" alt="user" class="profile-photo-md pull-left">
         <div class="post-detail">
           <div class="user-info">
             <h5><router-link :to="{path:'/user/' + post.user.id}" class="profile-link">{{post.user.name}}</router-link> <span class="following">following</span></h5>
@@ -25,7 +25,7 @@
           <div class="post-text">
             <p> {{ post.content }} <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
           </div>
-          <img v-if="post.image" :src="'storage/post_images/' + post.image" alt="post-image" class="img-responsive post-image">
+          <img v-if="post.image" :src="'../storage/post_images/' + post.image" alt="post-image" class="img-responsive post-image">
           <div class="line-divider"></div>
 
           

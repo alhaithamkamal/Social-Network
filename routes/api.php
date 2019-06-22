@@ -37,6 +37,7 @@ Route::group(['prefix' => 'v1'], function(){
         Route::delete('/comments/{comment}', 'CommentController@destroy')->name('comments.destroy');
         Route::get('/posts/comments/{comment}', 'CommentController@show')->name('getComment');
         Route::get('/myfeed', 'FeedController@getFeed')->name('feed');
+        Route::get('/user/{user}/feed', 'FeedController@userFeed')->name('userFeed');
         Route::post('/posts/reaction/{post}', 'LikesController@postLikesPost')->name('likePost');
         Route::post('/comments/reaction/{comment}', 'LikesController@postCommentLikes')->name('likeComment');
     });
